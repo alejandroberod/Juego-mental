@@ -1,0 +1,28 @@
+main, .container {
+    height: 100vh;
+}
+
+.content {
+    display: grid;
+    gap: 16px;
+}
+.card {
+    background-color: rgb(224, 78, 78);
+    padding: 16px;
+}
+.card-body {
+    border: 3px dashed black;
+    font-size: 100px;
+}
+
+
+@media (min-width: 540px) {
+    .content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 1200px) {
+    .content {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
