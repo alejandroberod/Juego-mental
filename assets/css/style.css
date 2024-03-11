@@ -2,6 +2,17 @@ main, .container {
     height: 100vh;
 }
 
+
+.form {
+    width: 50%;
+    margin: 30px auto
+}
+
+.select-nivel {
+    width: 100%;
+    padding: 10px;
+}
+
 .content {
     display: grid;
     gap: 16px;
@@ -9,10 +20,13 @@ main, .container {
 .card {
     background-color: rgb(224, 78, 78);
     padding: 16px;
+    height: fit-content;
+    
 }
 .card-body {
     border: 3px dashed black;
     font-size: 100px;
+    display: flex;
 }
 
 
@@ -23,6 +37,22 @@ main, .container {
 }
 @media (min-width: 1200px) {
     .content {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        /* grid-template-rows: repeat(4, 1fr); */
     }
+}
+
+.card {
+    height: 300px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+img::after {
+    content: '';
+    background-color: blue;
 }
