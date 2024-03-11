@@ -27,7 +27,25 @@ main, .container {
     border: 3px dashed black;
     font-size: 100px;
     display: flex;
+    position: relative;
 }
+
+.card-body::before {
+    content: '?';
+    color: black;
+    font-weight: bold;
+    font-size: 60px;
+    background-color: rgb(224, 78, 78);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 
 @media (min-width: 540px) {
@@ -50,9 +68,10 @@ img {
     max-width: 100%;
     height: auto;
     object-fit: cover;
+    position: relative;
+    opacity: 1;
+    transition: opacity 1s;
 }
 
-img::after {
-    content: '';
-    background-color: blue;
-}
+
+

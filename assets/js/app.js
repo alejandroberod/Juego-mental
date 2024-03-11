@@ -1,27 +1,43 @@
 //Variables
-const url = 'http://127.0.0.1:5500/User.json';
+const url = 'http://127.0.0.1:50066/User.json';
 const content = document.querySelector('.content');
 const formulario = document.querySelector('#form');
 
 //Eventos
 formulario.addEventListener('change', (e) => {
-    ajustarGrid(e.target.value)
+    ajustarGrid(e.target.value);
+    limpiarHTML();
+    ocultarCards()
 })
 
 
 //Funciones
-async function cargarJson(datos) {
+async function cargarJson(nivel) {
     const response = await fetch(url)
     const result = await response.json()
-    insertarHTML(result, datos);
+    insertarHTML(result, nivel);
 }
 
 let contador = 0;
-function insertarHTML(users, datos) {
-    const random = users.sort((a,b) => Math.random() - 0.5);
-    const num = +datos + 1;
-    const usuarios = random.slice(0, +datos)
-    console.log(usuarios)
+function insertarHTML(users, nivel) {
+    switch (nivel) {
+        case 'easy':
+            datos = 2
+            break;
+        case 'medium':
+            datos = 4
+            break;
+        case 'hard':
+            datos = 8
+            break;
+        case 'legend':
+            datos = 16
+            break;
+    }
+    //Se agarra el arreglo y mediante sort se desordena para posteriormente, mediante slice, cortar el arreglo dependiendo el nivel de dificultad escogido por el usuario
+    const randomCut = users.sort((a,b) => Math.random() - 0.5).slice(0, +datos);  
+    const almacenUsuarios = [...randomCut];
+    const usuarios = [...randomCut, ...almacenUsuarios].sort((a,b) => Math.random() - 0.5);
     usuarios.forEach(user => {
         const {id, nickname, nombre, valor} = user;
         const cards = document.createElement('div');
@@ -29,22 +45,73 @@ function insertarHTML(users, datos) {
         cards.innerHTML += `
             <div class="card" id="${id}" style="width: 18rem;">
                 <div class="card-body">
-                    <img src="./assets/img/${id}.jpg" alt="fruta">
+                    <img src="./assets/img/${id}.jpg" alt="fruta" class="img">
                 </div>
             </div>
         `
         content.appendChild(cards);
         
-        cards.addEventListener('click', leerNombre)
+        cards.addEventListener('click', contarIntentos)
     });
 }
 
-function leerNombre(e) {
-    console.log(e.target)
-    contador >= 0 && contador < 1 ? (console.log('clickea otro más '), contador += 1) : (console.log('ya no se puede clickear más'))
+function contarIntentos(e) {
+    let id;
+    if(e.target.classList.contains('img')) {
+        id = +e.target.parentElement.parentElement.id;
+    } else if(e.target.classList.contains('card-body')) {
+        id = +e.target.parentElement.id;
+    } else {
+        id = +e.target.id;
+    }
+    leerId(id);
+    contador >= 0 && contador <= 1 ? (console.log('click otro más'), contador += 1) : (console.log('ya no se puede clickear más'))
 }
 
-function ajustarGrid(columnas) {
+function ajustarGrid(nivel) {
+    switch (nivel) {
+        case 'easy':
+            columnas = 2
+            break;
+        case 'medium':
+            columnas = 4
+            break;
+        case 'hard':
+            columnas = 4
+            break;
+        case 'legend':
+            columnas = 4
+            break; 
+    }
     content.style.gridTemplateColumns = `repeat(${columnas}, 1fr)`;
-    cargarJson(columnas);
+    cargarJson(nivel);
+}
+
+function limpiarHTML() {
+    content.innerHTML = '';
+}
+
+
+let array = [];
+function leerId(id) {
+    array.push(id);
+    if (array.length == 2) {
+        if (array.every((id, i, array) => id === array[0])) {
+            console.log('correcto');
+        } else {
+            console.log('incorrecto');
+            array = [];
+        }
+    }
+}
+
+
+function ocultarCards() {
+    setTimeout(() => {
+        document.querySelectorAll('.card-body img').forEach(img => {
+            img.style.opacity = '0';
+        });
+
+    }, 3000);
+
 }
