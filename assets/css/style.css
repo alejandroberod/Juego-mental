@@ -2,10 +2,18 @@ main, .container {
     height: 100vh;
 }
 
-a {
+a.sign-up{
     text-decoration: none;
     color: #EC72B6;
+    font-weight: bold;
 }
+a.sign-in{
+    text-decoration: none;
+    color: #2148C0;
+    font-weight: bold;
+}
+
+
 
 .form {
     width: 50%;
@@ -87,7 +95,7 @@ img {
     font-family: "Montserrat", sans-serif;
 }
 .register {
-    background-color: #B23E44;
+    background-color: #bf696d;
     font-family: "Montserrat", sans-serif;
 }
 
@@ -97,6 +105,7 @@ input[type="text"], input[type="password"] {
     border-radius: 4px;
     background-color: transparent;
     color: #fff;
+    padding-left: 30px;
 }
 input[type="submit"] {
     height: 45px;
@@ -113,8 +122,22 @@ input[type="text"]:focus-visible, input[type="password"]:focus-visible {
 input[type="text"]::placeholder, input[type="password"]::placeholder {
     color: #fff;
     font-size: 14px;
-    padding-left: 30px;
     font-weight: lighter;
+}
+
+.campo .bi {
+    right: 4%;
+    top: 30%;
+}
+.login .campo .bi::before {
+    font-size: 25px;
+    color: #bf696d;
+    cursor: pointer;
+}
+.register .campo .bi::before {
+    font-size: 25px;
+    color: #2148C0;
+    cursor: pointer;
 }
 
 .registro-login {
@@ -142,3 +165,7 @@ input[type="text"]::placeholder, input[type="password"]::placeholder {
         width: 21%;
     }
 } 
+
+.alert {
+    height: 56px;
+}

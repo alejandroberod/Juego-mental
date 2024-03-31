@@ -1,5 +1,5 @@
 //Variables
-const url = 'http://127.0.0.1:50066/User.json';
+const url = 'https://api-9bd93-default-rtdb.firebaseio.com/api/users.json';
 const content = document.querySelector('.content');
 const formulario = document.querySelector('#form');
 
@@ -45,7 +45,7 @@ function insertarHTML(users, nivel) {
         cards.innerHTML += `
             <div class="card" id="${id}" style="width: 18rem;">
                 <div class="card-body">
-                    <img src="./assets/img/${id}.jpg" alt="fruta" class="img">
+                    <img src="../assets/img/${id}.svg" alt="fruta" class="img">
                 </div>
             </div>
         `
