@@ -1,5 +1,13 @@
-main, .container {
-    height: 100vh;
+html {
+    box-sizing: border-box;
+    line-height: 1.8;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    background-color: #1E1E1E;
 }
 
 a.sign-up{
@@ -13,11 +21,13 @@ a.sign-in{
     font-weight: bold;
 }
 
-
+.nivel {
+    padding-top: 50px;
+}
 
 .form {
     width: 50%;
-    margin: 30px auto
+    margin: 0px auto 30px auto
 }
 
 .select-nivel {
@@ -28,6 +38,7 @@ a.sign-in{
 .content {
     display: grid;
     gap: 16px;
+    justify-items: center;
 }
 .card {
     background-color: rgb(224, 78, 78);
@@ -72,9 +83,42 @@ a.sign-in{
     }
 }
 
-.card {
-    height: 300px;
+.cartas {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 16px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    cursor: pointer;
 }
+
+.incorrecto {
+    box-shadow: 0 0 20px #fa3232;
+    animation: vibracionIncorrecto 0.25s;
+}
+
+.correcto {
+    box-shadow: 0 0 20px #49ff96;
+
+}
+
+.carta {
+    position: absolute;
+    backface-visibility: hidden;
+    transition: 1s;
+}
+
+.carta-front {
+    transform: rotateY(0deg);
+}
+.carta-back {
+    transform: rotateY(180deg);
+}
+
+
 
 img {
     max-width: 100%;
@@ -84,6 +128,8 @@ img {
     opacity: 1;
     transition: opacity 1s;
 }
+
+/* Login y Register */
 
 #formulario {
     position: relative;
@@ -168,4 +214,14 @@ input[type="text"]::placeholder, input[type="password"]::placeholder {
 
 .alert {
     height: 56px;
+}
+
+/* Animacion */
+
+@keyframes vibracionIncorrecto{
+    0% { transform: translateX(0) }
+    25% { transform: translateX(5px) }
+    50% { transform: translateX(-5px) }
+    75% { transform: translateX(5px) }
+    100% { transform: translateX(0) }
 }

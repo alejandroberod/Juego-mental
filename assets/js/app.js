@@ -7,7 +7,6 @@ const formulario = document.querySelector('#form');
 formulario.addEventListener('change', (e) => {
     ajustarGrid(e.target.value);
     limpiarHTML();
-    ocultarCards()
 })
 
 
@@ -40,32 +39,34 @@ function insertarHTML(users, nivel) {
     const usuarios = [...randomCut, ...almacenUsuarios].sort((a,b) => Math.random() - 0.5);
     usuarios.forEach(user => {
         const {id, nickname, nombre, valor} = user;
-        const cards = document.createElement('div');
-        cards.classList.add('col');
-        cards.innerHTML += `
-            <div class="card" id="${id}" style="width: 18rem;">
-                <div class="card-body">
-                    <img src="../assets/img/${id}.svg" alt="fruta" class="img">
-                </div>
-            </div>
+        const cartas = document.createElement('div');
+        cartas.classList.add('cartas', 'cartas-before');
+        cartas.dataset.id = id;
+        cartas.innerHTML += `
+        <div class="carta carta-front">
+            <img src="../assets/img/${id}.svg" data-id="${id}" alt="Emoji" class="img-emoji">
+        </div>
+        <div class="carta carta-back">
+            <img src="../assets/img/Rectangle 3.svg" data-id="${id}" alt="Imagen Carta" class="img-rectangle">
+        </div>
         `
-        content.appendChild(cards);
+        content.appendChild(cartas);
         
-        cards.addEventListener('click', contarIntentos)
+        cartas.addEventListener('click', validar)
     });
+    voltearCartas();
 }
 
-function contarIntentos(e) {
-    let id;
-    if(e.target.classList.contains('img')) {
-        id = +e.target.parentElement.parentElement.id;
-    } else if(e.target.classList.contains('card-body')) {
-        id = +e.target.parentElement.id;
-    } else {
-        id = +e.target.id;
+function validar(e) {
+    let carta;
+    if(e.target.classList.contains('cartas')){
+        carta = e.target;
+    } else if(e.target.classList.contains('img-rectangle') || e.target.classList.contains('img-emoji')) {
+        carta = e.target.parentElement.parentElement
     }
-    leerId(id);
-    contador >= 0 && contador <= 1 ? (console.log('click otro más'), contador += 1) : (console.log('ya no se puede clickear más'))
+    const cara = carta.querySelectorAll('.carta');
+    voltearCarta(cara);  
+    verificarId(carta);
 }
 
 function ajustarGrid(nivel) {
@@ -92,26 +93,92 @@ function limpiarHTML() {
 }
 
 
-let array = [];
-function leerId(id) {
-    array.push(id);
-    if (array.length == 2) {
-        if (array.every((id, i, array) => id === array[0])) {
-            console.log('correcto');
-        } else {
-            console.log('incorrecto');
-            array = [];
-        }
-    }
-}
+function voltearCartas() {
+    const cara = document.querySelectorAll('.carta');
+    const cartas = document.querySelectorAll('.cartas');//Selecciono las cartas
 
-
-function ocultarCards() {
+    //Bloqueo las caras
+    cartas.forEach(carta => {
+        carta.style.pointerEvents = 'none';
+    })
     setTimeout(() => {
-        document.querySelectorAll('.card-body img').forEach(img => {
-            img.style.opacity = '0';
-        });
+        cartas.forEach(carta => {
+            carta.style.pointerEvents = 'auto';
+        })
+    }, 4000);
+
+    //Se dan vuelta las caras
+    cara.forEach(cara => {
+        cara.classList.toggle('carta-back');
+        cara.classList.toggle('carta-front');
+    })
+
+    setTimeout(() => {
+        cara.forEach(cara => {
+            cara.classList.toggle('carta-back');
+            cara.classList.toggle('carta-front');
+        })
+
+    }, 1000);
+    setTimeout(() => {
+        cara.forEach(cara => {
+            cara.classList.toggle('carta-back');
+            cara.classList.toggle('carta-front');
+        })
 
     }, 3000);
 
+}
+
+function voltearCarta(cara) {
+    
+    cara.forEach(carta => {
+        carta.classList.toggle('carta-back');
+        carta.classList.toggle('carta-front');
+    })
+
+}
+
+let cartasV = []
+let array = []
+function verificarId(carta) {
+     cartasV.push(carta);
+    const id = +carta.dataset.id;
+    array.push(id);
+    if (array.length == 2) {
+        if (array.every((id, i, array) => id === array[0])) {
+            validar('correcto', cartasV);
+            array = [];
+            cartasV = []
+        } else {
+            validar('incorrecto', cartasV);
+            array = [];
+            cartasV = []
+        }
+    }
+    
+}
+
+function validar(tipo, cartasV) {
+    if (tipo == 'correcto') {
+        cartasV.forEach(carta => {
+            setTimeout(() => {
+                carta.classList.add('correcto');
+                
+            }, 1000);
+            carta.style.pointerEvents = 'none'
+        })
+    } else {
+        cartasV.forEach(carta => {
+            const cara = carta.querySelectorAll('.carta');
+            setTimeout(() => {
+                carta.classList.add('incorrecto');
+                
+            }, 1000);
+            setTimeout(() => {
+                carta.classList.remove('incorrecto');
+                voltearCarta(cara);
+            }, 1500);
+        })
+    }
 }
