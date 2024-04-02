@@ -2,35 +2,68 @@
 const url = 'https://api-9bd93-default-rtdb.firebaseio.com/api/users.json';
 const content = document.querySelector('.content');
 const formulario = document.querySelector('#form');
+const count = document.querySelector('.contador');
+let regresiva; //La declaro aquí para poder borrar el setInterval con 'resetContador'
 
 //Eventos
 formulario.addEventListener('change', (e) => {
     ajustarGrid(e.target.value);
+    resetContador();
     limpiarHTML();
 })
 
 
 //Funciones
+
+function ajustarGrid(nivel) {
+    switch (nivel) {
+        case 'easy':
+            columnas = 2;
+            tiempo = 10;
+            break;
+        case 'medium':
+            columnas = 4;
+            tiempo = 60;
+            break;
+        case 'hard':
+            columnas = 4;
+            tiempo = 120;
+            break;
+        case 'legend':
+            columnas = 4
+            tiempo = 180;
+            break; 
+    }
+    content.style.gridTemplateColumns = `repeat(${columnas}, 1fr)`;
+    cargarJson(nivel);
+    
+}
+
 async function cargarJson(nivel) {
     const response = await fetch(url)
     const result = await response.json()
     insertarHTML(result, nivel);
 }
 
+
 let contador = 0;
 function insertarHTML(users, nivel) {
     switch (nivel) {
         case 'easy':
             datos = 2
+            tiempo = 30
             break;
         case 'medium':
             datos = 4
+            tiempo = 60
             break;
         case 'hard':
             datos = 8
+            tiempo = 120
             break;
         case 'legend':
             datos = 16
+            tiempo = 180
             break;
     }
     //Se agarra el arreglo y mediante sort se desordena para posteriormente, mediante slice, cortar el arreglo dependiendo el nivel de dificultad escogido por el usuario
@@ -52,48 +85,12 @@ function insertarHTML(users, nivel) {
         `
         content.appendChild(cartas);
         
-        cartas.addEventListener('click', validar)
+        cartas.addEventListener('click', validarAll)
     });
-    voltearCartas();
+    voltearCartas(tiempo);
 }
 
-function validar(e) {
-    let carta;
-    if(e.target.classList.contains('cartas')){
-        carta = e.target;
-    } else if(e.target.classList.contains('img-rectangle') || e.target.classList.contains('img-emoji')) {
-        carta = e.target.parentElement.parentElement
-    }
-    const cara = carta.querySelectorAll('.carta');
-    voltearCarta(cara);  
-    verificarId(carta);
-}
-
-function ajustarGrid(nivel) {
-    switch (nivel) {
-        case 'easy':
-            columnas = 2
-            break;
-        case 'medium':
-            columnas = 4
-            break;
-        case 'hard':
-            columnas = 4
-            break;
-        case 'legend':
-            columnas = 4
-            break; 
-    }
-    content.style.gridTemplateColumns = `repeat(${columnas}, 1fr)`;
-    cargarJson(nivel);
-}
-
-function limpiarHTML() {
-    content.innerHTML = '';
-}
-
-
-function voltearCartas() {
+function voltearCartas(tiempo) {
     const cara = document.querySelectorAll('.carta');
     const cartas = document.querySelectorAll('.cartas');//Selecciono las cartas
 
@@ -105,6 +102,7 @@ function voltearCartas() {
         cartas.forEach(carta => {
             carta.style.pointerEvents = 'auto';
         })
+        cuentaRegresiva(tiempo);
     }, 4000);
 
     //Se dan vuelta las caras
@@ -128,6 +126,19 @@ function voltearCartas() {
 
     }, 3000);
 
+}
+
+
+function validarAll(e) {
+    let carta;
+    if(e.target.classList.contains('cartas')){
+        carta = e.target;
+    } else if(e.target.classList.contains('img-rectangle') || e.target.classList.contains('img-emoji')) {
+        carta = e.target.parentElement.parentElement
+    }
+    const cara = carta.querySelectorAll('.carta');
+    voltearCarta(cara);  
+    verificarId(carta);
 }
 
 function voltearCarta(cara) {
@@ -155,6 +166,8 @@ function verificarId(carta) {
             array = [];
             cartasV = []
         }
+    } else {
+        carta.style.pointerEvents = 'none'
     }
     
 }
@@ -170,6 +183,7 @@ function validar(tipo, cartasV) {
         })
     } else {
         cartasV.forEach(carta => {
+            carta.style.pointerEvents = 'auto'
             const cara = carta.querySelectorAll('.carta');
             setTimeout(() => {
                 carta.classList.add('incorrecto');
@@ -182,3 +196,41 @@ function validar(tipo, cartasV) {
         })
     }
 }
+
+function limpiarHTML() {
+    content.innerHTML = '';
+}
+
+function cuentaRegresiva(tiempo) {
+    
+    
+    regresiva = setInterval(() => {
+        tiempo--
+        // console.log(tiempo)
+        
+        let minutos = Math.floor(tiempo/60);
+        let segundos = tiempo%60;
+
+        if (minutos == 0 && segundos == 0) {
+            clearInterval(regresiva);
+        }
+        minutos < 10 ? minutos = '0' + minutos : null
+        segundos < 10 ? segundos = '0' + segundos : null
+        
+        count.textContent = `${minutos}:${segundos}`
+    }, 1000);
+
+}
+
+function resetContador() {
+    clearInterval(regresiva)
+    count.textContent = '00:00'
+}
+
+
+
+
+
+
+
+

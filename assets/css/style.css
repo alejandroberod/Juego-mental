@@ -33,6 +33,15 @@ a.sign-in{
 .select-nivel {
     width: 100%;
     padding: 10px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #1E1E1E;
+    border: 2px solid #76abf5;
+    cursor: pointer;
+}
+.select-nivel:focus-visible {
+    outline: none;
 }
 
 .content {
@@ -216,6 +225,24 @@ input[type="text"]::placeholder, input[type="password"]::placeholder {
     height: 56px;
 }
 
+.contador {
+    color: #76abf5;
+    font-size: 20px;
+    font-weight: bold;
+    position: fixed;
+    border: solid #76abf5 3px;
+    border-radius: 50%;
+    box-shadow: 0 0 30px #76abf5;
+    width: 100px;
+    height: 100px;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
 /* Animacion */
 
 @keyframes vibracionIncorrecto{
@@ -225,3 +252,4 @@ input[type="text"]::placeholder, input[type="password"]::placeholder {
     75% { transform: translateX(5px) }
     100% { transform: translateX(0) }
 }
+
