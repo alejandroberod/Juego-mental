@@ -21,6 +21,21 @@ a.sign-in{
     font-weight: bold;
 }
 
+.header {
+    display: flex;
+    justify-content: center;
+}
+
+.header .puntaje, .header .nombre-usuario {
+    margin: 10px auto 0 auto;
+    font-size: 30px;
+    font-weight: 400;
+    background: -webkit-linear-gradient(#49ff96,#76abf5);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #76abf5;  
+}
+
 .nivel {
     padding-top: 50px;
 }
@@ -243,6 +258,33 @@ input[type="text"]::placeholder, input[type="password"]::placeholder {
     backdrop-filter: blur(5px);
 }
 
+
+/* Creacion de jugadores */
+form .campo-perfil {
+    color: white;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.campo-perfil input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #1E1E1E;
+    border: 2px solid #76abf5;
+}
+.campo-perfil input[type="submit"] {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    transition: 0.5s;
+}
+.campo-perfil input[type="submit"]:hover {
+    transform: scale(1.05);
+}
 /* Animacion */
 
 @keyframes vibracionIncorrecto{
@@ -252,4 +294,3 @@ input[type="text"]::placeholder, input[type="password"]::placeholder {
     75% { transform: translateX(5px) }
     100% { transform: translateX(0) }
 }
-

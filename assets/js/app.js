@@ -3,6 +3,7 @@ const url = 'https://api-9bd93-default-rtdb.firebaseio.com/api/users.json';
 const content = document.querySelector('.content');
 const formulario = document.querySelector('#form');
 const count = document.querySelector('.contador');
+const infoLocalStorage = localStorage.getItem('id') || [];
 let regresiva; //La declaro aquí para poder borrar el setInterval con 'resetContador'
 
 //Eventos
@@ -228,9 +229,10 @@ function resetContador() {
 }
 
 
+console.log(userLocalStorage)
+localStorage.setItem('user', 'Luis')
 
 
-
-
+localStorage.setItem('user', 'Alejandro')
 
 
