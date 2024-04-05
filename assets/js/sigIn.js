@@ -34,7 +34,7 @@ async function registarUsuario(e) {
         imprimirAlerta('Inicio de sesión exitoso, bienvenido');
 
         setTimeout(() => {
-            window.location.href = '../views/game.html'
+            window.location.href = '../views/creacionJugadores.html'
         }, 2000);
     } catch (error) {
         console.log(error)

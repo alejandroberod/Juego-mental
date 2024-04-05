@@ -4,7 +4,16 @@ const content = document.querySelector('.content');
 const formulario = document.querySelector('#form');
 const count = document.querySelector('.contador');
 const infoLocalStorage = localStorage.getItem('id') || [];
-let regresiva; //La declaro aquí para poder borrar el setInterval con 'resetContador'
+const puntaje = document.querySelector('.puntaje');
+const nombreJugador = document.querySelector('.nombre-usuario');
+let idJugador;
+let regresiva; //La declaro aquí para poder borrar el setInterval con 'resetContador';
+
+
+//Extracción id jugador
+const urlId = new URLSearchParams(window.location.search);
+idJugador = urlId.get('id');
+extraerJugador(idJugador);
 
 //Eventos
 formulario.addEventListener('change', (e) => {
@@ -13,8 +22,21 @@ formulario.addEventListener('change', (e) => {
     limpiarHTML();
 })
 
-
 //Funciones
+function extraerJugador(id) {
+    const jugadores = JSON.parse(localStorage.getItem("jugadores"));
+    console.log(jugadores)
+    jugadores.forEach(jugador => {
+        const jugadorId = jugador.id;
+        if (jugadorId == id ) {
+            puntaje.textContent = `Puntaje: ${jugador.puntaje}`;
+            nombreJugador.textContent = `Nombre: ${jugador.perfil}`;
+            console.log(jugador)
+            return;
+        }
+    })
+
+}
 
 function ajustarGrid(nivel) {
     switch (nivel) {
@@ -51,24 +73,25 @@ let contador = 0;
 function insertarHTML(users, nivel) {
     switch (nivel) {
         case 'easy':
-            datos = 2
-            tiempo = 30
+            datos = 2;
+            tiempo = 30;
             break;
         case 'medium':
-            datos = 4
-            tiempo = 60
+            datos = 4;
+            tiempo = 60;
             break;
         case 'hard':
-            datos = 8
-            tiempo = 120
+            datos = 8;
+            tiempo = 120;
             break;
         case 'legend':
-            datos = 16
-            tiempo = 180
+            datos = 16;
+            tiempo = 180;
             break;
     }
     //Se agarra el arreglo y mediante sort se desordena para posteriormente, mediante slice, cortar el arreglo dependiendo el nivel de dificultad escogido por el usuario
-    const randomCut = users.sort((a,b) => Math.random() - 0.5).slice(0, +datos);  
+    const randomCut = users.sort((a,b) => Math.random() - 0.5).slice(0, +datos);
+    console.log(users)
     const almacenUsuarios = [...randomCut];
     const usuarios = [...randomCut, ...almacenUsuarios].sort((a,b) => Math.random() - 0.5);
     usuarios.forEach(user => {
@@ -76,6 +99,7 @@ function insertarHTML(users, nivel) {
         const cartas = document.createElement('div');
         cartas.classList.add('cartas', 'cartas-before');
         cartas.dataset.id = id;
+        cartas.dataset.valor = valor;
         cartas.innerHTML += `
         <div class="carta carta-front">
             <img src="../assets/img/${id}.svg" data-id="${id}" alt="Emoji" class="img-emoji">
@@ -160,6 +184,8 @@ function verificarId(carta) {
     if (array.length == 2) {
         if (array.every((id, i, array) => id === array[0])) {
             validar('correcto', cartasV);
+            const valor = +cartasV[0].dataset.valor;
+            sacarPuntaje(valor);
             array = [];
             cartasV = []
         } else {
@@ -228,11 +254,8 @@ function resetContador() {
     count.textContent = '00:00'
 }
 
-
-console.log(userLocalStorage)
-localStorage.setItem('user', 'Luis')
-
-
-localStorage.setItem('user', 'Alejandro')
-
-
+let valorAcumulado = 0;
+function sacarPuntaje(valor) {
+    valorAcumulado += valor;
+    puntaje.textContent = valorAcumulado;
+}

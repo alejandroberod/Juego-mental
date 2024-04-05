@@ -1,5 +1,6 @@
 //Variables
 const formulario = document.querySelector('#form');
+let jugadores = JSON.parse(localStorage.getItem('jugadores')) || [];
 
 //Eventos
 formulario.addEventListener('submit', validar);
@@ -43,12 +44,13 @@ function imprimirAlerta(mensaje, tipo) {
 function setStorage(perfil) {
     const id = Date.now();
     const url = new URL('../views/game.html', window.location.href);
-    console.log(url)
     url.searchParams.set('id', id);
     window.location.href = url.href;
     const jugador = {
         perfil,
-        puntaje: 0
+        puntaje: 0,
+        id
     }
-    localStorage.setItem(`${id}`, JSON.stringify(jugador));
+    jugadores.push(jugador);
+    localStorage.setItem("jugadores", JSON.stringify(jugadores));
 }
