@@ -5,7 +5,7 @@ const formulario = document.querySelector('#formulario');
 const icon = document.querySelector('.campo .bi');
 
 //Eventos
-formulario.addEventListener("submit", registarUsuario);
+formulario.addEventListener("submit", logearUsuario);
 icon.addEventListener('click', (e) => {
     console.log('hola')
     icon.classList.toggle('bi-eye-fill');
@@ -18,7 +18,7 @@ icon.addEventListener('click', (e) => {
 })
 
 //Funciones
-async function registarUsuario(e) {
+async function logearUsuario(e) {
     e.preventDefault();
     const email = formulario.querySelector('input[type="text"]').value;
     const password = formulario.querySelector('input[type="password"]').value;
@@ -34,7 +34,7 @@ async function registarUsuario(e) {
         imprimirAlerta('Inicio de sesión exitoso, bienvenido');
 
         setTimeout(() => {
-            window.location.href = '../views/game.html'
+            window.location.href = '../views/creacionJugadores.html'
         }, 2000);
     } catch (error) {
         console.log(error)

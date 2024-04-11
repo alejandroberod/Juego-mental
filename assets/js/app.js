@@ -229,10 +229,5 @@ function resetContador() {
 }
 
 
-console.log(userLocalStorage)
-localStorage.setItem('user', 'Luis')
-
-
-localStorage.setItem('user', 'Alejandro')
 
 
